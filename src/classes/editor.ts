@@ -67,7 +67,12 @@ export default class {
     point.draw();
 
     if (this.last_point !== null) {
-      console.log('Add line');
+      const line = new Line(this.last_point, point);
+
+      line.setPaper(this.paper);
+      line.draw();
+
+      lines.push(line);
     }
 
     this.last_point = point;

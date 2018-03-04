@@ -26,7 +26,6 @@
 </template>
 
 <script>
-  import Point from '@/classes/point'
   import Editor from '@/classes/editor'
 
   export default {
