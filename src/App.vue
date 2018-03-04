@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <a class="navbar-brand" href="#">Vue svg markdown</a>
+      <img src="./assets/logo.png" style="height: 2rem;" class="mr-2">
+      <a class="navbar-brand" href="#">Vue svg markup</a>
 
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
