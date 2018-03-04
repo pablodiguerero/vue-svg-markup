@@ -9,7 +9,7 @@ export default class extends Element {
 
   private line;
 
-  constructor (private from_point: Point, private to_point: Point) {
+  constructor (public from_point: Point, public to_point: Point) {
     super();
   }
 
@@ -24,11 +24,22 @@ export default class extends Element {
     return this.line;
   }
 
+  public startWith(point: Point) {
+    return this.from_point.isEqual(point);
+  }
+
   private getPath() {
     const [x1, y1] = this.from_point.coordinates,
       [x2, y2] = this.to_point.coordinates;
 
     return `M${x1} ${y1}L${x2} ${y2}`;
+  }
+
+  public remove() {
+    this.from_point.remove();
+    this.to_point.remove();
+
+    this.line.remove();
   }
 
 }

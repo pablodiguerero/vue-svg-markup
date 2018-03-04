@@ -14,7 +14,11 @@ export default class {
   }
 
   public redraw () {
-    throw new Error('Not implement error');
+    throw new Error('Non implement error');
+  }
+
+  public remove() {
+    throw new Error('Non implement error');
   }
 
 }

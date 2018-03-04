@@ -37,6 +37,13 @@
         editor: new Editor(),
       }
     },
+    watch: {
+      state () {
+        if (!this.state) {
+          this.editor.emptyCache();
+        }
+      }
+    },
     computed: {
       svg: {
         get () {
@@ -50,6 +57,10 @@
     },
     methods: {
       addPlacemark(event) {
+        if (!this.state) {
+          return;
+        }
+
         const coordinates = [
           event.pageX - 1 - this.editor.getPaperPosition().left,
           event.pageY - 1 - this.editor.getPaperPosition().top,

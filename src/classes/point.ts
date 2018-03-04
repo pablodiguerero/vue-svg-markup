@@ -8,6 +8,8 @@ export default class extends Element {
   private readonly COLOR = '#45D4FF';
   private readonly STROKE = 2;
 
+  private readonly gap = 5;
+
   private draggable = false;
 
   private circle;
@@ -34,7 +36,10 @@ export default class extends Element {
   }
 
   public isEqual(point) {
-
+    return point.coordinates[0] >= this.coordinates[0] - this.gap &&
+      point.coordinates[0] <= this.coordinates[0] + this.gap &&
+      point.coordinates[1] >= this.coordinates[1] - this.gap &&
+      point.coordinates[1] <= this.coordinates[1] + this.gap;
   }
 
   private onMove (dx, dy) {
@@ -43,6 +48,10 @@ export default class extends Element {
     }
 
     this.circle.transform('t' + dx + ',' + dy);
+  }
+
+  public remove() {
+    this.circle_set.remove();
   }
 
 }

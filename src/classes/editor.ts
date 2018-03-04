@@ -63,22 +63,33 @@ export default class {
     const point = new Point(coordinates),
       lines = this.getEmptyAreaPoints();
 
-    point.setPaper(this.paper);
-    point.draw();
-
-    if (this.last_point !== null) {
-      const line = new Line(this.last_point, point);
-
-      line.setPaper(this.paper);
-      line.draw();
-
-      lines.push(line);
+    if (lines.length && lines[0].startWith(point)) {
+      /*
+       * If we have closed figure - convert it to area
+       */
+      this.convertLinesToArea();
     }
+    else {
+      /*
+       * Else handle inline-click
+       */
+      point.setPaper(this.paper);
+      point.draw();
 
-    this.last_point = point;
+      if (this.last_point !== null) {
+        const line = new Line(this.last_point, point);
+
+        line.setPaper(this.paper);
+        line.draw();
+
+        lines.push(line);
+      }
+
+      this.last_point = point;
+    }
   }
 
-  private getEmptyAreaPoints() {
+  private getEmptyAreaPoints(): Array<Line> {
     /*
      * Return empty area points
      */
@@ -88,6 +99,37 @@ export default class {
     }
 
     return this.areas.get(null);
+  }
+
+  private convertLinesToArea() {
+    const lines = this.areas.get(null),
+      area = Area.fromLines(lines);
+
+    area.setPaper(this.paper);
+    area.draw();
+
+    /*
+     * Clear temporary data
+     */
+    this.areas.delete(null);
+    this.last_point = null;
+
+    this.areas.set(area, lines);
+  }
+
+  public emptyCache () {
+    /*
+     * Empty temporary variables
+     */
+    if (this.areas.has(null)) {
+      this.areas.get(null).forEach(area => area.remove());
+      this.areas.delete(null);
+    }
+
+    if (this.last_point) {
+      this.last_point.remove();
+      this.last_point = null;
+    }
   }
 
 }
