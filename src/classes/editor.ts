@@ -1,4 +1,8 @@
 import Point from './point';
+import Line from './line';
+import Area from './area';
+
+import Raphael from 'raphael';
 
 export default class {
   /*
@@ -6,12 +10,18 @@ export default class {
    */
 
   private _load = false;
+  private _paper = null;
 
   public get load(): boolean {
     return this._load;
   }
 
-  unmarked_points: Array<Point> = [];
+  public get paper(): any {
+    return this._paper;
+  }
+
+  last_point: Point = null;
+  areas: Map<Area, Array<Line>> = new Map();
 
   constructor (public svg = null) { }
 
@@ -23,6 +33,8 @@ export default class {
 
     this.svg.style.width = width;
     this.svg.style.height = height;
+
+    this._paper = new Raphael(this.svg, width, height);
 
     this._load = true;
   }
@@ -45,10 +57,32 @@ export default class {
   }
 
   public addPoint(coordinates) {
-    const point = new Point(coordinates);
-    point.setContext(this);
+    /*
+     * Create a new point
+     */
+    const point = new Point(coordinates),
+      lines = this.getEmptyAreaPoints();
 
+    point.setPaper(this.paper);
     point.draw();
+
+    if (this.last_point !== null) {
+      console.log('Add line');
+    }
+
+    this.last_point = point;
+  }
+
+  private getEmptyAreaPoints() {
+    /*
+     * Return empty area points
+     */
+
+    if (!this.areas.has(null)) {
+      this.areas.set(null, []);
+    }
+
+    return this.areas.get(null);
   }
 
 }
