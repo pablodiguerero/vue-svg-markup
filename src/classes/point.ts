@@ -94,6 +94,15 @@ export default class extends Element {
     this.context.redraw();
   }
 
+  public normalize() {
+    /*
+     * Normalize point
+     */
+    this.circle.attr({
+      'fill': this.COLOR,
+    });
+  }
+
   public remove() {
     this.circle_set.remove();
   }

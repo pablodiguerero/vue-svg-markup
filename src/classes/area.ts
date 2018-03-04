@@ -26,7 +26,10 @@ class Area extends Element {
 
   private set points(value: Array<Point>) {
     this._points = value;
-    this._points.forEach(point => point.setContext(this));
+    this._points.forEach(point => {
+      point.setContext(this);
+      point.normalize();
+    });
   }
 
   public static fromLines(lines: Array<Line>) {

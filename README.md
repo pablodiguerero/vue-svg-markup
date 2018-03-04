@@ -19,6 +19,7 @@ Enjoy
 - [x] Convert more than two lines into area
 - [x] Remove non-closed areas (points & lines)
 - [x] Drag areas when disabled draw-mode
-- [ ] Remove areas
+- [x] Add custom color in start point
+- [ ] ~~Remove areas~~
 
 [promo]: https://store.1ddk.ru/vue-svg-markup/promo.gif "Sample promo"

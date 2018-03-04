@@ -74,7 +74,7 @@ export default class {
        * Else handle inline-click
        */
       point.setPaper(this.paper);
-      point.draw();
+      point.draw(this.last_point === null);
 
       if (this.last_point !== null) {
         const line = new Line(this.last_point, point);
