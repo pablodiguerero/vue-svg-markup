@@ -16,6 +16,18 @@ class Area extends Element {
   private ACTIVE = this.ACTIVE_UNRELATED;
 
   private area;
+  private _points: Array<Point>;
+
+  public draggable = false;
+
+  private get points(): Array<Point> {
+    return this._points;
+  }
+
+  private set points(value: Array<Point>) {
+    this._points = value;
+    this._points.forEach(point => point.setContext(this));
+  }
 
   public static fromLines(lines: Array<Line>) {
     const points = [];
@@ -29,8 +41,9 @@ class Area extends Element {
     return new Area(points);
   }
 
-  constructor(public points: Array<Point>) {
+  constructor(points: Array<Point>) {
     super();
+    this.points = points;
   }
 
   public draw() {
@@ -41,6 +54,11 @@ class Area extends Element {
         'stroke-width': this.STROKE
       })
       .toBack();
+  }
+
+  public redraw() {
+    this.area.remove();
+    this.draw();
   }
 
   private getPath () {

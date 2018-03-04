@@ -35,6 +35,10 @@ export default class extends Element {
     return `M${x1} ${y1}L${x2} ${y2}`;
   }
 
+  public hide() {
+    this.line.remove();
+  }
+
   public remove() {
     this.from_point.remove();
     this.to_point.remove();

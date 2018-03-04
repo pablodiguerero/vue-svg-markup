@@ -4,13 +4,16 @@ export default class extends Element {
   /*
    * Simple point class
    */
-  private readonly RADIUS = 6;
+  private readonly GREEN_COLOR = '#0B0';
   private readonly COLOR = '#45D4FF';
+
+  private readonly RADIUS = 6;
   private readonly STROKE = 2;
 
   private readonly gap = 5;
 
   private draggable = false;
+  private tmp_coordinates: [number, number];
 
   private circle;
   private circle_set;
@@ -19,11 +22,11 @@ export default class extends Element {
     super();
   }
 
-  public draw () {
+  public draw (first: boolean = false) {
     this.circle_set = this.paper.set();
     this.circle = this.paper.circle(this.coordinates[0], this.coordinates[1], this.RADIUS)
       .attr({
-        'fill': this.COLOR,
+        'fill': first ? this.GREEN_COLOR : this.COLOR,
         'stroke-width': this.STROKE
       })
       .toFront();
@@ -31,23 +34,47 @@ export default class extends Element {
     this.circle_set.push(this.circle);
 
     this.circle_set.drag(
-      (dx, dy) => this.onMove(dx, dy)
+      (dx, dy) => this.onMove(dx, dy),
+      (dx, dy) => this.holdStore(dx, dy),
+      ($event) => this.unHoldStore($event),
     );
   }
 
-  public isEqual(point) {
+  public isEqual (point) {
     return point.coordinates[0] >= this.coordinates[0] - this.gap &&
       point.coordinates[0] <= this.coordinates[0] + this.gap &&
       point.coordinates[1] >= this.coordinates[1] - this.gap &&
       point.coordinates[1] <= this.coordinates[1] + this.gap;
   }
 
+  private holdStore (...args) {
+    this.tmp_coordinates = this.coordinates;
+  }
+
+  private unHoldStore (...args) {
+    this.circle.attr({
+      cx: this.coordinates[0],
+      cy: this.coordinates[1],
+    });
+
+    this.circle.transform('t0,0');
+
+    this.tmp_coordinates = null;
+  }
+
   private onMove (dx, dy) {
-    if (!this.draggable) {
+    if (!this.context || !this.context.draggable) {
       return;
     }
 
+    this.coordinates = [
+      this.tmp_coordinates[0] + dx,
+      this.tmp_coordinates[1] + dy,
+    ];
+
     this.circle.transform('t' + dx + ',' + dy);
+
+    this.context.redraw();
   }
 
   public remove() {

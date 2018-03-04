@@ -115,6 +115,12 @@ export default class {
     this.last_point = null;
 
     this.areas.set(area, lines);
+
+    lines.forEach((line: Line) => line.hide());
+  }
+
+  public setDraggable(value: boolean) {
+    this.areas.forEach((_, area: Area) => area.draggable = value);
   }
 
   public emptyCache () {

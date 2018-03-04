@@ -43,6 +43,8 @@
         if (!this.state) {
           this.editor.emptyCache();
         }
+
+        this.editor.setDraggable(!this.state);
       }
     },
     computed: {
