@@ -23,6 +23,9 @@ export default class extends Element {
   }
 
   public draw (first: boolean = false) {
+    /*
+     * Display circle on canvas
+     */
     this.circle_set = this.paper.set();
     this.circle = this.paper.circle(this.coordinates[0], this.coordinates[1], this.RADIUS)
       .attr({
@@ -41,6 +44,9 @@ export default class extends Element {
   }
 
   public isEqual (point) {
+    /*
+     * Compare two points by coordinates with gup
+     */
     return point.coordinates[0] >= this.coordinates[0] - this.gap &&
       point.coordinates[0] <= this.coordinates[0] + this.gap &&
       point.coordinates[1] >= this.coordinates[1] - this.gap &&
@@ -48,10 +54,18 @@ export default class extends Element {
   }
 
   private holdStore (...args) {
+    /*
+     * Hold old coordinates
+     */
     this.tmp_coordinates = this.coordinates;
   }
 
   private unHoldStore (...args) {
+    /*
+     * Unhold circle's position
+     * Update circle's canvas coordinates
+     * Flushing drag transform
+     */
     this.circle.attr({
       cx: this.coordinates[0],
       cy: this.coordinates[1],
@@ -63,6 +77,9 @@ export default class extends Element {
   }
 
   private onMove (dx, dy) {
+    /*
+     * Upgrade circle transformation when drug
+     */
     if (!this.context || !this.context.draggable) {
       return;
     }
